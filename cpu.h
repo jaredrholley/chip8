@@ -39,13 +39,16 @@ uint8_t sound_timer;
 // Key status
 uint8_t key[16];
 
+// Indicate a draw has occured
+bool drawFlag;
+
 uint8_t memory[MEM_SIZE]; // Total memory space of 4K
 uint8_t V[16];        // 15 8-bit general purpose registers V0-VE (hex) - 16th used for carry flag
 uint16_t opcode;      // 16 Bit opcodes
 uint16_t I;           // Index register (range 0x000 - 0xFFF)
 uint16_t pc;          // Program Counter (range 0x000 - 0xFFF)
-uint8_t stack[STACK_SIZE];    // Array for Stack Emulation
-uint8_t sp;           // Stack pointer
+uint16_t stack[STACK_SIZE];    // Array for Stack Emulation
+uint16_t sp;           // Stack pointer
 
 
 

@@ -51,12 +51,60 @@ void emulateCycle() {
                 case 0x0000: // 0x00E0 Clears the Screen
                     for (int i = 0; i < DISP_RES; i ++)
                         gfx[i] = 0;
+                    pc += 2;
+                    drawFlag = true;
                 break;
                 case 0x000E: // 0x00EE Returns from subroutine
                     pc = stack[sp];
+                    --sp;
+                break;
 
-
+                default:
+                    printf ("Unknown opcode [0x0000]: 0x%X\n", opcode);
             }
+        break;
+
+        case 0x1000: // Jump to location nnn
+            pc = opcode & 0x0FFF;
+        break;
+
+        case 0x2000: // Call subroutine at nnn
+            stack[sp] = pc;
+            sp++;
+            pc = opcode & 0xFFF;
+         break;
+
+        case 0x3000: // Skip next instruction if Vx = kk
+            if (V[(opcode >> 8) & 0x000F] == (opcode & 0x00FF))
+                pc += 4;
+            else
+                pc += 2;
+        break;
+
+        case 0x4000:
+            if (V[(opcode >> 8) & 0x000F] != (opcode & 0x00FF))
+                pc += 4;
+            else
+                pc += 2;
+        break;
+
+        case 0x5000:
+            if (V[(opcode >> 8) & 0x000F] == V[(opcode >> 4) & 0x000F])
+                pc += 4;
+            else
+                pc += 2;
+        break;
+
+        case 0x6000:
+            V[(opcode >> 8) & 0x000F] = opcode & 0x00FF;
+            pc += 2;
+        break;
+
+        case 0x7000:
+            V[(opcode >> 8) & 0x000F] += (opcode & 0x00FF);
+            pc += 2;
+        break;
+
     }
 
 }
