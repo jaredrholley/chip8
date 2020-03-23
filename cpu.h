@@ -39,19 +39,14 @@ uint8_t sound_timer;
 // Key status
 uint8_t key[16];
 
-/**********************
- *      STRUCTS
- **********************/
+uint8_t memory[MEM_SIZE]; // Total memory space of 4K
+uint8_t V[16];        // 15 8-bit general purpose registers V0-VE (hex) - 16th used for carry flag
+uint16_t opcode;      // 16 Bit opcodes
+uint16_t I;           // Index register (range 0x000 - 0xFFF)
+uint16_t pc;          // Program Counter (range 0x000 - 0xFFF)
+uint8_t stack[STACK_SIZE];    // Array for Stack Emulation
+uint8_t sp;           // Stack pointer
 
-typedef struct cpu_s {
-    uint8_t memory[MEM_SIZE]; // Total memory space of 4K
-    uint8_t V[16];        // 15 8-bit general purpose registers V0-VE (hex) - 16th used for carry flag
-    uint16_t opcode;      // 16 Bit opcodes
-    uint16_t I;           // Index register (range 0x000 - 0xFFF)
-    uint16_t pc;          // Program Counter (range 0x000 - 0xFFF)
-    uint8_t stack[STACK_SIZE];    // Array for Stack Emulation
-    uint8_t sp;           // Stack pointer
-} cpu_t;
 
 
 /**********************
@@ -59,9 +54,9 @@ typedef struct cpu_s {
  **********************/
 
 // Clears all system variables and CPU attributes
-void initialize(cpu_t cpu);
+void initialize();
 
 // Emulate once cycle of the CPU
-void emulateCycle(cpu_t cpu);
+void emulateCycle();
 
 #endif /* CPU_H_ */
