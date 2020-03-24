@@ -6,6 +6,7 @@
  */
 
 #include "msp.h"
+#include <stdbool.h>
 
 /*
  * 0x000-0x1FF - Chip 8 interpreter (contains font set in emu)
